@@ -52,6 +52,10 @@ timestamp({Date, Time}) -> [Date, $T, Time].
 convert(Data) -> lists:foldl(fun convert/2, [], Data).
 
 convert({_, undefined}, Acc) -> Acc;
+convert({line, {Line, Char}}, Acc) ->
+    LineStr = erlang:integer_to_binary(Line),
+    CharStr = erlang:integer_to_binary(Char),
+    [{line, <<"Line: ", LineStr/binary, ", Column ", CharStr/binary>>} | Acc];
 convert({pid, Pid}, Acc) when is_pid(Pid) ->
     [{pid, list_to_binary(pid_to_list(Pid))} | Acc];
 convert({K, List}, Acc) when is_list(List) ->
