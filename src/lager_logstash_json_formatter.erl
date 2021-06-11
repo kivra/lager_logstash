@@ -56,8 +56,8 @@ convert({line, {Line, Char}}, Acc) ->
     LineStr = erlang:integer_to_binary(Line),
     CharStr = erlang:integer_to_binary(Char),
     [{line, <<"Line: ", LineStr/binary, ", Column ", CharStr/binary>>} | Acc];
-convert({pid, Pid}, Acc) when is_pid(Pid) ->
-    [{pid, list_to_binary(pid_to_list(Pid))} | Acc];
+convert({K, Pid}, Acc) when is_pid(Pid) ->
+    [{K, list_to_binary(pid_to_list(Pid))} | Acc];
 convert({K, List}, Acc) when is_list(List) ->
     [{K, iolist_to_binary(List)} | Acc];
 convert({K, Atom}, Acc) when is_atom(Atom) ->
